@@ -11,7 +11,7 @@ List<String> images = [
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.green[50],
+        backgroundColor: const Color.fromARGB(255, 0, 137, 14),
         appBar: AppBar(
           backgroundColor: Colors.green[400],
           title: const Text('Score Bars'),  
@@ -19,12 +19,11 @@ void main() => runApp(MaterialApp(
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
               children: const [
-                ScoreBarCard(title: 'Card 1', maxScore: 10),
-                ScoreBarCard(title: 'Card 2', maxScore: 20),
-                ScoreBarCard(title: 'Card 3', maxScore: 15),
+                ScoreBarCard(title: 'Flutter Score', maxScore: 10),
+                ScoreBarCard(title: 'Dart Score', maxScore: 20),
+                ScoreBarCard(title: 'Python Score', maxScore: 15),
               ],
             ),
           ),
@@ -33,7 +32,7 @@ void main() => runApp(MaterialApp(
   ),
 );
 class ScoreBarCard extends StatefulWidget {
-  final String title; // optional, if you want to label each card
+  final String title;
   final int maxScore;
 
   const ScoreBarCard({
@@ -66,13 +65,11 @@ class _ScoreBarCardState extends State<ScoreBarCard> {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(32),
         child: Column(
           children: [
             Text(widget.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            ProgressBar(selectedScore: selectedScore, maxScore: widget.maxScore),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -92,6 +89,9 @@ class _ScoreBarCardState extends State<ScoreBarCard> {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            ProgressBar(selectedScore: selectedScore, maxScore: widget.maxScore, height: 40),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -102,11 +102,13 @@ class _ScoreBarCardState extends State<ScoreBarCard> {
 class ProgressBar extends StatelessWidget {
   final int selectedScore;
   final int maxScore;
+  final double height;
 
   const ProgressBar({
     super.key,
     required this.selectedScore,
     required this.maxScore,
+    this.height = 25,
   });
 
   @override
@@ -115,15 +117,15 @@ class ProgressBar extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 20,
+          height: height,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.black, width: 0.5),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         Container(
-          height: 20,
+          height: height,
           width: MediaQuery.of(context).size.width * percentage,
           decoration: BoxDecoration(
             color: Colors.green,
